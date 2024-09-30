@@ -8,6 +8,7 @@ interface AppointmentTypes {
 }
 
 const AppointmentInfo: React.FC<AppointmentTypes> = ({ appointment, onDeleteAppointment }) => {
+  
   return (
     <li className="px-3 py-3 flex items-start">
       <button

@@ -5,6 +5,12 @@ interface DropDownTypes {
   toggle: boolean;
 }
 
+interface SearchTypes {
+  query?: string;
+  onQueryChange: (newQuery: string) => void;
+  setQuery?: React.Dispatch<React.SetStateAction<string>>;
+}
+
 const Dropdown: React.FC<DropDownTypes> = ({ toggle }) => {
   if (!toggle) {
     return null;
@@ -55,8 +61,9 @@ const Dropdown: React.FC<DropDownTypes> = ({ toggle }) => {
   );
 };
 
-const Search: React.FC = ({query, onQueryChange}) => {
+const Search: React.FC<SearchTypes> = ({query, onQueryChange}) => {
   const [toggleSort, setToggleSort] = useState(false);
+  
   return (
     <div className="py-5">
       <div className="mt-1 relative rounded-md shadow-sm">
