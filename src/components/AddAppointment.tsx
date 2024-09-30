@@ -1,10 +1,17 @@
+import React, { useState } from "react";
 import { BiCalendarPlus } from "react-icons/bi";
-// import { useState } from 'react';
 
-const AddAppointment = () => {
+// interface ToggleTypes {
+//   toggle: boolean,
+//   setToggle: React.Dispatch<React.SetStateAction<boolean>>
+// }
+
+const AddAppointment: React.FC = () => {
+  const [toggle, setToggle] = useState(false);
   return (
     <div>
       <button
+        onClick={() => setToggle(!toggle)}
         className={`bg-blue-400 text-white px-2 py-3 w-full text-left rounded-t-md`}
       >
         <div>
@@ -13,6 +20,7 @@ const AddAppointment = () => {
         </div>
       </button>
       {
+        toggle && 
         <div className="border-r-2 border-b-2 border-l-2 border-light-blue-500 rounded-b-md pl-4 pr-4 pb-4 pt-4">
           <div className="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5">
             <label

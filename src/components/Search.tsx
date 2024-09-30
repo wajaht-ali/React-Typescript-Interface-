@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { BiCaretDown, BiCheck, BiSearch } from "react-icons/bi";
 
 interface DropDownTypes {
   toggle: boolean;
 }
+
 const Dropdown: React.FC<DropDownTypes> = ({ toggle }) => {
   if (!toggle) {
     return null;
@@ -53,7 +54,9 @@ const Dropdown: React.FC<DropDownTypes> = ({ toggle }) => {
     </div>
   );
 };
-const Search: React.FC = () => {
+
+const Search: React.FC = ({query, onQueryChange}) => {
+  const [toggleSort, setToggleSort] = useState(false);
   return (
     <div className="py-5">
       <div className="mt-1 relative rounded-md shadow-sm">
@@ -65,7 +68,8 @@ const Search: React.FC = () => {
           type="text"
           name="query"
           id="query"
-          value=""
+          value={query}
+          onChange={(e) => onQueryChange(e.target.value)}
           className="pl-8 py-2 border-2 rounded-md focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm focus:outline-none border-gray-300"
           placeholder="Search"
         />
@@ -77,10 +81,11 @@ const Search: React.FC = () => {
               id="options-menu"
               aria-haspopup="true"
               aria-expanded="true"
+              onClick={() => setToggleSort(!toggleSort)}
             >
               Sort By <BiCaretDown className="ml-2" />
             </button>
-            <Dropdown toggle={false} />
+            <Dropdown toggle={toggleSort} />
           </div>
         </div>
       </div>
