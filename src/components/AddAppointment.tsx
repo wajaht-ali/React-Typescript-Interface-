@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import { BiCalendarPlus } from "react-icons/bi";
 
 // interface ToggleTypes {
@@ -6,8 +6,36 @@ import { BiCalendarPlus } from "react-icons/bi";
 //   setToggle: React.Dispatch<React.SetStateAction<boolean>>
 // }
 
-const AddAppointment: React.FC = () => {
+const AddAppointment: React.FC = ({onSendAppointment, lastId}) => {
   const [toggle, setToggle] = useState(false);
+  const [formData, setFormData] = useState({
+    ownerName: "",
+    petName: "",
+    aptDate: "",
+    aptTime: "",
+    aptNotes: "",
+  })
+  let clearData = {
+    ownerName: "",
+    petName: "",
+    aptDate: "",
+    aptTime: "",
+    aptNotes: "",
+  }
+
+  const handleFormData = (e: FormEvent) => {
+    e.preventDefault();
+    const newAppointment = {
+      id: lastId + 1,
+      ownerName: formData.ownerName,
+      petName: formData.petName,
+      aptDate: formData.aptDate + " " + formData.aptTime,
+      aptNotes: formData.aptNotes,
+    }
+    onSendAppointment(newAppointment);
+    setFormData(clearData);
+    setToggle(!toggle);
+  }
   return (
     <div>
       <button
@@ -34,6 +62,7 @@ const AddAppointment: React.FC = () => {
                 type="text"
                 name="ownerName"
                 id="ownerName"
+                onChange={(e) => {setFormData({...formData, ownerName: e.target.value})}}
                 className="pl-8 py-2 border-2 rounded-md focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm focus:outline-none border-gray-300"
               />
             </div>
@@ -51,6 +80,7 @@ const AddAppointment: React.FC = () => {
                 type="text"
                 name="petName"
                 id="petName"
+                onChange={(e) => {setFormData({...formData, petName: e.target.value})}}
                 className="pl-8 py-2 border-2 rounded-md focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm focus:outline-none border-gray-300"
               />
             </div>
@@ -68,6 +98,7 @@ const AddAppointment: React.FC = () => {
                 type="date"
                 name="aptDate"
                 id="aptDate"
+                onChange={(e) => {setFormData({...formData, aptDate: e.target.value})}}
                 className="pl-8 py-2 border-2 rounded-md focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm focus:outline-none border-gray-300"
               />
             </div>
@@ -85,6 +116,7 @@ const AddAppointment: React.FC = () => {
                 type="time"
                 name="aptTime"
                 id="aptTime"
+                onChange={(e) => {setFormData({...formData, aptTime: e.target.value})}}
                 className="pl-8 py-2 border-2 rounded-md focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm focus:outline-none border-gray-300"
               />
             </div>
@@ -102,6 +134,7 @@ const AddAppointment: React.FC = () => {
                 id="aptNotes"
                 name="aptNotes"
                 rows={3}
+                onChange={(e) => {setFormData({...formData, aptNotes: e.target.value})}}
                 className="p-2 border-2 rounded-md focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm focus:outline-none border-gray-300"
                 placeholder="Detailed comments about the condition"
               ></textarea>
@@ -112,6 +145,7 @@ const AddAppointment: React.FC = () => {
             <div className="flex justify-end">
               <button
                 type="submit"
+                onClick={handleFormData}
                 className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400"
               >
                 Submit
